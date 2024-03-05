@@ -5,6 +5,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\ItemController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,3 +38,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::resource('items', ItemController::class)->middleware(['auth', 'verified']);

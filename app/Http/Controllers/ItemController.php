@@ -27,7 +27,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Items/Create');
     }
 
     /**
@@ -35,7 +35,19 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        //
+        // fillableを効かせるためcreateで作成
+        Item::create([
+            'name' => $request->name,
+            'memo' => $request->memo,
+            'price' => $request->price,
+            'is_selling' => true,
+        ]);
+
+        return to_route('items.index')
+            ->with([
+                'message' => '登録しました。',
+                'status' => 'success',
+        ]);
     }
 
     /**

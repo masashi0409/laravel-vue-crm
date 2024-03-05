@@ -1,7 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
-import FlashMessage from '../../Components/FlashMessage.vue';
 
 defineProps({
     items: Array
@@ -24,7 +23,6 @@ defineProps({
                     <div class="p-6 text-gray-900">
                         <section class="text-gray-600 body-font">
                             <div class="container px-5 py-8 mx-auto">
-                                <FlashMessage />
                                 <div class="flex pl-4 my-4 lg:w-2/3 w-full mx-auto">
                                     <Link 
                                         as="button"

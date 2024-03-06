@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use \App\Models\Customer;
+use \App\Models\Item;
+use \App\Models\Purchase;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,5 +19,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ItemSeeder::class
         ]);
+        
+        
+        // CustomerのSeederはCustomerFactoryを使って作成する
+        Customer::factory(100)->create();
     }
 }

@@ -9,7 +9,7 @@ defineProps({
 })
 
 const deleteItem = id => {
-    router.delete(`/items/destroy/${id}`, {
+    router.delete(`/items/${id}`, {
         onBefore: () => confirm('本当に削除しますか？')
     })
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,4 +40,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+// 商品管理
 Route::resource('items', ItemController::class)->middleware(['auth', 'verified']);
+// 顧客管理
+Route::resource('customers', CustomerController::class)->middleware(['auth', 'verified']);

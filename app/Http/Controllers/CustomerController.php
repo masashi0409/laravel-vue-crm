@@ -2,18 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\http\Request;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
+
+use Inertia\Inertia;
 
 class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
+     * 顧客一覧
+     * ページネーションがある
      */
     public function index()
     {
-        //
+        $customers = Customer::
+            select('id', 'name', 'kana', 'tel')
+            ->paginate(10); // pagination
+        
+        return Inertia::render('Customers/Index', [
+            'customers' => $customers
+        ]);
     }
 
     /**

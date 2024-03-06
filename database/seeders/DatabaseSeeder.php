@@ -23,5 +23,23 @@ class DatabaseSeeder extends Seeder
         
         // CustomerのSeederはCustomerFactoryを使って作成する
         Customer::factory(100)->create();
+        
+        /**
+         * Purchase 中間テーブルitem_purchaseもダミーデータを登録する
+         * リレーション attachを使う
+         * 
+         */
+        $items = Item::all();
+        Purchase::factory(1000)->create()
+            ->each(function(Purchase $purchase) use ($items) {
+                $purchase->items()->attach(
+                    $items->random(rand(1,3))->pluck('id')->toArray(), // item_id ランダムで1~3件、pluck: コレクションからidだけ取得
+                    [
+                        'quantity' => rand(1, 5)
+                    ]
+                );
+            });
+            
+            // dd($items->random(rand(1,3))); $items->random() コレクションの中から~件ランダムに取得
     }
 }

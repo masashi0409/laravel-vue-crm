@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePurchaseRequest;
 use App\Models\Purchase;
 use App\Models\Customer;
 use App\Models\Item;
+use App\Models\Subtotal;
 use Inertia\Inertia;
 
 class PurchaseController extends Controller
@@ -85,7 +86,27 @@ class PurchaseController extends Controller
      */
     public function show(Purchase $purchase)
     {
-        //
+        //　小計
+        $subtotals = Subtotal::where('id', $purchase->id)->get();
+
+        // 合計
+        $total = Subtotal::groupBy('id')
+        ->where('id', $purchase->id)
+            ->selectRaw('
+                id,
+                sum(subtotal) as total,
+                customer_name,
+                status,
+                created_at
+            ')
+            ->get();
+
+        // dd($subtotals, $total);
+
+        return Inertia::render('Purchases/Show', [
+            'subtotals' => $subtotals,
+            'total' => $total
+        ]);
     }
 
     /**

@@ -61,7 +61,7 @@ const quantity= ["0", "1", "2", "3"]
 // 顧客検索モーダルからemitされたcustomerIdをセットする
 // emitされた値は引数に入っている
 const setCustomerId = customerId => {
-    form.customer_id =customerIdd
+    form.customer_id =customerId
  }
 </script>
 

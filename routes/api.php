@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Customer;
+use App\Http\Controllers\Api\AnalysisApiController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +26,7 @@ Route::middleware('auth:sanctum')
     return Customer::searchCustomers($request->search)
     ->select('id', 'name', 'kana', 'tel')->paginate(50);
 });
+
+Route::middleware('auth:sanctum')
+->get('/analysis', [AnalysisApiController::class, 'index'])->name('api.analysis');
+

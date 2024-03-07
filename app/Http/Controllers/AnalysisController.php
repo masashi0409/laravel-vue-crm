@@ -4,12 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Subtotal;
 
 class AnalysisController extends Controller
 {
 
     public function index()
     {
-     return Inertia::render('Analysis');
+        
+        $startDate = '2022-08-01';
+        $endDate = '2022-08-10';
+        
+        $period = Subtotal::betweenDate($startDate, $endDate) // 期間の指定
+            ->groupBy('id')
+            ->selectRaw('id, sum(subtotal) as total,
+            customer_name, status, created_at')
+            ->orderBy('created_at')
+            ->paginate(50);
+        
+        return Inertia::render('Analysis');
     } 
 }

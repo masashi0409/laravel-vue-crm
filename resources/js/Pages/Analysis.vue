@@ -1,8 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import { reactive, onMounted } from 'vue'
+import { reactive, onMounted, ref } from 'vue'
 import { getToday } from '@/common'
+
+import 'vue-good-table-next/dist/vue-good-table-next.css'
+import { VueGoodTable } from 'vue-good-table-next';
 
 const form = reactive({ startDate: null, endDate: null, type: 'perDay' })
 
@@ -24,12 +27,38 @@ const getData = async () => {
         })
         .then( res => {
             data.data = res.data.data
-            console.log(res.data)
+            
+            rows.value = res.data.data
+            
         })
     } catch (e){
         console.log(e.message)
     }
 }
+
+
+const columns = ref([
+    {
+      label: '年月日',
+      field: 'date',
+      filterOptions: {
+        enabled: true,
+      }
+    },
+    {
+        label: '金額',
+        field: 'total',
+        type: 'number',
+        filterOptions: {
+          enabled: true,
+        }
+    },
+])
+    
+const rows = ref([
+    { date:1, total:"100"},
+    { date:2, total:"200"},
+])
     
 </script>
 
@@ -67,6 +96,16 @@ const getData = async () => {
                             </tbody>
                         </table>
                     </div>
+                    <br>
+                    <br>
+                    <div>
+                        vue-good-table-nextで表示
+                    </div>
+                  　<div>
+                        <vue-good-table
+                            :columns="columns"
+                            :rows="rows" />
+                        </div>
                 </div>
             </div>
         </div>

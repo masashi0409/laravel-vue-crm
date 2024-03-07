@@ -4,7 +4,7 @@ import { Head } from '@inertiajs/vue3';
 import { reactive, onMounted } from 'vue'
 import { getToday } from '@/common'
 
-const form = reactive({ startDate: null, endDate: null })
+const form = reactive({ startDate: null, endDate: null, type: 'perDay' })
 
 onMounted(() => {
     form.startDate = getToday()

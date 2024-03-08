@@ -7,6 +7,9 @@ import { getToday } from '@/common'
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next';
 
+import Chart from '@/Components/Chart.vue'
+
+
 const form = reactive({ startDate: null, endDate: null, type: 'perDay' })
 
 const data = reactive({})
@@ -27,7 +30,8 @@ const getData = async () => {
         })
         .then( res => {
             data.data = res.data.data
-            
+            data.labels = res.data.labels
+            data.totals = res.data.totals
             rows.value = res.data.data
             
         })
@@ -80,32 +84,42 @@ const rows = ref([
                      <button>分析する</button>
                     </form>
                     
-                    <div v-if="data.data" class="lg:w-2/3 w-full mx-auto overflow-auto">
-                        <table class="table-auto w-full text-left whitespace-no-wrap">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">年月日</th>
-                                    <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">金額</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="item in data.data" :key="item.date">
-                                    <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.date }}</td>
-                                    <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.total }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <!--<div v-if="data.data" class="lg:w-2/3 w-full mx-auto overflow-auto">-->
+                    <!--    <table class="table-auto w-full text-left whitespace-no-wrap">-->
+                    <!--        <thead>-->
+                    <!--            <tr>-->
+                    <!--                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">年月日</th>-->
+                    <!--                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">金額</th>-->
+                    <!--            </tr>-->
+                    <!--        </thead>-->
+                    <!--        <tbody>-->
+                    <!--            <tr v-for="item in data.data" :key="item.date">-->
+                    <!--                <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.date }}</td>-->
+                    <!--                <td class="border-b-2 border-gray-200 px-4 py-3">{{ item.total }}</td>-->
+                    <!--            </tr>-->
+                    <!--        </tbody>-->
+                    <!--    </table>-->
+                    <!--</div>-->
                     <br>
                     <br>
                     <div>
                         vue-good-table-nextで表示
                     </div>
-                  　<div>
+                  　<div class="lg:w-2/3 w-full mx-auto overflow-auto">
                         <vue-good-table
                             :columns="columns"
                             :rows="rows" />
-                        </div>
+                    </div>
+                    
+                    <br>
+                    <br>
+                    
+                    <div>
+                        chart
+                    </div>
+                    <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+                        <Chart :data="data" />
+                    </div>
                 </div>
             </div>
         </div>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Inertia\Inertia;
 use App\Models\Subtotal;
+use App\Services\AnalysisService;
 
 class AnalysisApiController extends Controller
 {
@@ -17,27 +18,14 @@ class AnalysisApiController extends Controller
         $subQuery = Subtotal::betweenDate($request->startDate, $request->endDate);
         
         if ($request->type === 'perDay') {
-            $subQuery->where('status', true)
-                ->groupBy('id')
-                ->selectRaw('
-                    id,
-                    sum(subtotal) as totalPerPurchase,
-                    DATE_FORMAT(created_at, "%Y%m%d") as date
-                ');
-        
-            $data = DB::table($subQuery)
-                ->groupBy('date')
-                ->selectRaw('
-                    date,
-                    sum(totalPerPurchase) as total
-                ')
-                ->get();
-  
-
-            return response()->json([
-                'data' => $data,
-                'type' => $request->type
-            ], Response::HTTP_OK);
+            list($data, $labels, $totals) = AnalysisService::perDay($subQuery);
         }
+
+        return response()->json([
+            'data' => $data,
+            'labels' => $labels,
+            'totals' => $totals,
+            'type' => $request->type
+        ], Response::HTTP_OK);
     } 
 }
